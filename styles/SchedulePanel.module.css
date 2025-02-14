@@ -165,7 +165,7 @@
 @media (max-width: 768px) {
   .scheduleContainer{
     flex: none;
-    min-height: calc(100vh - 26rem);
+    min-height: calc(100vh - 30rem);
   }
   .weekButton{
     height: 4.5rem;
