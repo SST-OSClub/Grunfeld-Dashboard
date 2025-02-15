@@ -9,7 +9,8 @@ export async function POST(request: Request) {
 
     if (!storedCode) {
       return NextResponse.json(
-        { valid: false, message: 'No secure code found. Please generate one first.' },
+        // { valid: false, message: 'No secure code found.' },
+        { valid: false, message: 'Our Hamsters are working on this feature...' },
         { status: 400 }
       );
     }
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
 
     if (userCode.toUpperCase() === storedCode.code) {
       clearSecureCode();
-      return NextResponse.json({ valid: true, message: 'Secure code is valid!' });
+      return NextResponse.json({ valid: true, message: '' });
     } else {
       return NextResponse.json({ valid: false, message: 'Incorrect secure code.' }, { status: 400 });
     }

@@ -10,27 +10,38 @@ const AttendanceButton: React.FC = () => {
   const funnyMessages: string[] = ["Asking the security hamsters to verify..."];
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputCode(e.target.value);
-    setIsHappy(e.target.value.length > 5);
+    setInputCode(e.target.value);   
   };
 
-  const handleValidate = () => {
+  const handleValidate = async () => {
     setLoading(true);
     setMessage(funnyMessages[Math.floor(Math.random() * funnyMessages.length)]);
+    setIsHappy(false); 
 
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/validateCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: inputCode.trim() }),
+      });
+
+      const data = await response.json();
+
       setLoading(false);
-      setMessage(
-        inputCode.length > 5
-          ? "Attendance marked successfully! 🎉"
-          : "Invalid code! Please check and try again. ❌"
-      );      
-    }, 2000);
+      setMessage(data.message || "Attendance marked successfully! 🎉");
+
+      setIsHappy(data.valid);
+    } catch (error) {
+      setLoading(false);
+      setMessage("Something went wrong. Please try again later." + error);
+      setIsHappy(false); 
+    }
   };
 
   return (
     <div className={styles.card}>
-
       {/* Input Section */}
       <div className={styles.inputSection}>
         <div className={styles.inputWrapper}>
@@ -38,7 +49,8 @@ const AttendanceButton: React.FC = () => {
             type="text"
             value={inputCode}
             onChange={handleInputChange}
-            placeholder="Enter your attendance code"
+            // placeholder="Enter your attendance code"
+            placeholder="Under Construction 🚧"
             className={styles.input}
           />
         </div>
