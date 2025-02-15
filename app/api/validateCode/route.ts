@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import axios from 'axios';
 import { validateSecureCode } from '@/lib/secureCodeFirebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebaseClient';
@@ -38,34 +39,54 @@ export async function POST(request: Request) {
       rollNumber: userData.roll_number || "No Roll Number"
     };
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const attendanceUrl = new URL('/api/attendance', baseUrl);
-    
-    const attendanceResponse = await fetch(attendanceUrl.toString(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(attendanceData),
-    });
 
-    const attendanceResult = await attendanceResponse.json();
 
-    if (!attendanceResponse.ok) {
-      return NextResponse.json(
-        {
-          valid: true,
-          message: `${attendanceResult.error || ''}`
-        },
-        { status: 500 }
-      );
+    let attendanceResult;
+    try {
+      const axiosResponse = await axios.post(attendanceUrl.toString(), attendanceData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      attendanceResult = axiosResponse.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.data) {
+          return NextResponse.json(
+            { valid: true, message: `${error.response.data.error || ''}` },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json(
+          { valid: false, message: `Error making attendance request: ${error.message}` },
+          { status: 500 }
+        );
+      } else if (error instanceof Error) {
+        return NextResponse.json(
+          { valid: false, message: `Error making attendance request: ${error.message}` },
+          { status: 500 }
+        );
+      } else {
+        return NextResponse.json(
+          { valid: false, message: `Unknown error making attendance request.` },
+          { status: 500 }
+        );
+      }
     }
-    
+
     return NextResponse.json({
       valid: true,
-      message: `${attendanceResult.message}`
+      message: `${attendanceResult.message}`,
     });
   } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { valid: false, message: 'Invalid request. ' + error.message + "abs" },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
-      { valid: false, message: 'Invalid request. ' + error },
+      { valid: false, message: 'Invalid request. Unknown error occurred.' },
       { status: 400 }
     );
   }
