@@ -73,7 +73,7 @@ const AttendanceButton: React.FC = () => {
             type="text"
             value={inputCode}
             onChange={handleInputChange}
-            placeholder="Under Construction 🚧"
+            placeholder="Enter your code"
             className={styles.input}
           />
         </div>
