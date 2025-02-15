@@ -1,19 +1,11 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-import { setSecureCode, CodeData } from '@/lib/secureCodeStore';
+import { generateAndStoreSecureCode } from '@/lib/secureCodeFirebase';
 
 export async function GET() {
-  const now = Date.now();
-  const secureCode = crypto.randomBytes(3).toString('hex').toUpperCase();
-
-  const codeData: CodeData = {
-    code: secureCode,
-    generatedAt: now,
-    expiresAt: now + 60000, 
-    isValid: true,
-  };
-
-  setSecureCode(codeData);
-
-  return NextResponse.json(codeData);
+  try {
+    const codeData = await generateAndStoreSecureCode();
+    return NextResponse.json(codeData);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to generate secure code."+error }, { status: 500 });
+  }
 }

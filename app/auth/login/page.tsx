@@ -71,8 +71,6 @@ const LoginPage: React.FC = () => {
   const handleGithubLogin = async () => {
     if (!validateForm()) return;
 
-    localStorage.setItem("userFormData", JSON.stringify(formData));
-
     setIsLoading(true);
     try {
       const provider = new GithubAuthProvider();
