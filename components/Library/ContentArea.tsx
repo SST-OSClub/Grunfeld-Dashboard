@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "@/styles/ContentArea.module.css";
 import LibraryCard from "@/ui/LibraryCard";
+import { supabase } from "@/lib/supabaseClient";
 
 
 interface ContentAreaProps {
@@ -14,54 +15,26 @@ interface LibraryCardProps {
   DownloadLink?: string;
 }
 
-const LibraryCardData: LibraryCardProps[] = [
-  {
-    title: "Git and Github",
-    duration: "23 min",
-    ShareLink: "https://example.com/share/git-and-github-playlist",
-    DownloadLink: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-  },
-  {
-    title: "JavaScript Basics",
-    duration: "15 min",
-    ShareLink: "https://example.com/share/git-and-github-playlist",
-    DownloadLink: undefined,
-  },
-  {
-    title: "React Notes",
-    duration: "10 min",
-    ShareLink: "https://example.com/share/git-and-github-playlist",
-    DownloadLink: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-  },
-  {
-    title: "Next.js Advanced",
-    duration: "7 min",
-    ShareLink: "https://example.com/share/git-and-github-playlist",
-    DownloadLink: "https://example.com/share/git-and-github-playlist",
-  },
-  {
-    title: "Node.js Backend",
-    duration: "9 min",
-    ShareLink: "https://example.com/share/git-and-github-playlist",
-    DownloadLink: "https://example.com/share/git-and-github-playlist",
-  },
-  {
-    title: "TypeScript Guide",
-    duration: "8 min",
-    ShareLink: undefined,
-    DownloadLink: "https://example.com/share/git-and-github-playlist",
-  },
-  {
-    title: "Python for Data Science",
-    duration: "12 min",
-    ShareLink: undefined,
-    DownloadLink: "https://example.com/share/git-and-github-playlist",
-  }
-];
-
 
 const ContentArea: React.FC<ContentAreaProps> = ({ activeTab }) => {
   const [tab, setTab] = useState(activeTab);
+  const [LibraryCardData, setLibraryData] = useState<LibraryCardProps[]>([]);
+
+  useEffect(() => {
+    async function fetchLibraryData() {
+      const { data, error } = await supabase
+        .from("library")
+        .select("*");
+
+      if (error) {
+        console.error("Error fetching library data:", error);
+      } else {
+        setLibraryData(data);
+        console.log(data)
+      }
+    }
+    fetchLibraryData();
+  }, []);
 
   useEffect(() => {
     setTab(activeTab);
