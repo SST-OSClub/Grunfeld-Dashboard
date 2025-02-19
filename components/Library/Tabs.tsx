@@ -13,7 +13,7 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
   const tabs: Tab[] = [
-    { id: 'playlist', label: 'Playlist' },
+    { id: 'video', label: 'Playlist' },
     { id: 'notes', label: 'Notes' },
   ];
 

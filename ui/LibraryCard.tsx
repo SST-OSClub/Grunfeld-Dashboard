@@ -11,6 +11,7 @@ interface LibraryCardProps {
   duration?: string;
   ShareLink?: string;
   DownloadLink?: string;
+  tab: string;
 }
 
 const LibraryCard: React.FC<LibraryCardProps> = ({
@@ -18,6 +19,7 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
   duration = "0 min",
   ShareLink,
   DownloadLink,
+  tab,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -116,11 +118,11 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
             isHovered ? styles.playlistTagHovered : ""
           }`}
         >
-          {DownloadLink ? "Notes" : "Videos"}{" "}
+          {tab ? "Notes" : "Videos"}{" "}
         </span>
       </div>
 
-      {!DownloadLink && (
+      {tab=="video" && (
         <div
           className={`${styles.videoCountContainer} ${
             isHovered ? styles.videoCountContainerHovered : ""
@@ -139,7 +141,7 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          if (DownloadLink) {
+          if (tab == "notes") {
             onDownload();
           } else {
             onShare?.();
@@ -150,8 +152,8 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
         }`}
       >
         {loading ? (
-        <Loader size={18} className={`${styles.shareIcon} animate-spin`} /> // Show loading icon
-      ) : DownloadLink ? (
+        <Loader size={18} className={`${styles.shareIcon} animate-spin`} /> 
+      ) : tab == "notes" ? (
         <Download size={18} className={styles.shareIcon} />
       ) : (
         <Share2 size={18} className={styles.shareIcon} />
