@@ -1,0 +1,112 @@
+.outerContainer {
+  min-height: 100vh;
+  background-color: #0a0a0a; 
+}
+
+.navbar {
+  background-color: #0a0a0a;
+  padding: 1rem 1.5rem;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.searchContainer {
+  position: relative;
+  width: 24rem;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #4a5568;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  padding-left: 2.5rem;
+  border-radius: 0.5rem; 
+  border: none;
+  outline: none;
+}
+
+.searchInput:focus {
+  box-shadow: 0 0 0 2px #4299e1; 
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem; 
+  top: 0.625rem; 
+  height: 1.25rem; 
+  width: 1.25rem; 
+  color: #a0aec0; 
+}
+
+.tabsContainer {
+  border-bottom: 1px solid #4a5568; 
+}
+
+.tabsWrapper {
+  display: flex;
+  padding: 0 1.5rem; 
+}
+
+.tabButton {
+  padding: 0.75rem 1rem; 
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.tabButtonInactive {
+  color: #cbd5e0; 
+}
+
+.tabButtonInactive:hover {
+  color: #d1d5db; 
+}
+
+.tabButtonActive {
+  color: #4299e1; 
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.125rem; 
+  background-color: #4299e1;
+}
+
+.mainContent {
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.contentContainer {
+  padding: 1.5rem; 
+}
+
+.contentHeading {
+  font-size: 1.25rem;
+  font-weight: 600; 
+  color: #ffffff;
+  margin-bottom: 1rem; 
+}
+
+.contentParagraph {
+  color: #d1d5db; 
+}
+  

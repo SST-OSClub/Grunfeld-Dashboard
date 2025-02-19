@@ -1,8 +1,6 @@
 import { Navbar, SearchPanel, SchedulePanel } from "@/components";
 import styles from "@/styles/DashboardLayout.module.css";
 
-// Fixes The Github URL Issue
-
 export default function DashboardLayout() {
   return (
     <div className={styles.dashboardContainer}>

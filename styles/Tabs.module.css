@@ -1,0 +1,41 @@
+.tabsContainer {
+    border-bottom: 1px solid #4a5568; 
+  }
+  
+  .tabsWrapper {
+    display: flex;
+    padding: 0 1.5rem; 
+  }
+  
+  .tabButton {
+    padding: 0.75rem 1rem; 
+    font-size: 0.875rem;
+    font-weight: 500; 
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .tabButtonInactive {
+    color: #cbd5e0; 
+  }
+  
+  .tabButtonInactive:hover {
+    color: #d1d5db;
+  }
+  
+  .tabButtonActive {
+    color: #4299e1; 
+  }
+  
+  .activeIndicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0.125rem; 
+    background-color: #4299e1; 
+  }
+  
