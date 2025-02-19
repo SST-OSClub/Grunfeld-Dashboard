@@ -1,19 +1,25 @@
 .mainContent {
-    margin: 0 auto;
-    max-width: 100%;
-  }
-  
-  .contentContainer {
-    padding: 1.5rem;
-  }
-  
-  .contentHeading {
-    font-size: 1.25rem; 
-    font-weight: 600; 
-    color: #ffffff;
-    margin-bottom: 1rem; 
-  }
-  
-  .contentParagraph {
-    color: #d1d5db; 
-  }
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.contentContainer {
+  padding: 1.5rem;
+}
+
+.contentHeading {
+  font-size: 1.25rem; 
+  font-weight: 600; 
+  color: #ffffff;
+  margin-bottom: 1rem; 
+}
+
+.contentParagraph {
+  color: #d1d5db; 
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  gap: 1rem;
+}

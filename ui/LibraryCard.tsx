@@ -1,42 +1,80 @@
 import React, { useState } from "react";
-import { Share2, Video, Download } from "lucide-react";
+import axios from "axios";
+import { Share2, Video, Download, Loader } from "lucide-react";
 import styles from "@/styles/LibraryCard.module.css";
 import Image from "next/image";
+import channelLogo from "@/public/Logo.png";
+
 
 interface LibraryCardProps {
   title?: string;
-  channelName?: string;
-  channelLogo?: string;
-  videoCount?: number;
-  onShare?: () => void;
-  onClick?: () => void;
-  onDownload?: () => void; // Added for notes
+  duration?: string;
+  ShareLink?: string;
+  DownloadLink?: string;
 }
 
 const LibraryCard: React.FC<LibraryCardProps> = ({
   title = "Course Title",
-  channelName = "Channel Name",
-  channelLogo,
-  videoCount = 0,
-  onShare,
-  onClick = () => console.log("Card clicked"),
-  onDownload,
+  duration = "0 min",
+  ShareLink,
+  DownloadLink,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const getInitials = (name: string): string => {
-    return name
-      .split(" ")
-      .map((word) => word[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+  const copyToClippboard = async () => {
+    try {
+      await navigator.clipboard.writeText(ShareLink || "");
+    } catch (error) {
+      console.error("Failed to copy", error);
+    }
+  };
+
+  const onShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: "Check out this awesome Video on OSS Club",
+          url: ShareLink,
+        });
+      } catch (error) {
+        console.error("Error sharing", error);
+      }
+    } else {
+      copyToClippboard();
+    }
+  };
+
+  const onDownload = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        "/api/download",
+        { DownloadLink },
+        { responseType: "blob" }
+      );
+
+      const url = URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = DownloadLink?.split("/").pop() || "Download";
+      document.body.appendChild(link);
+      link.click();
+
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div
       className={styles.card}
-      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -56,24 +94,18 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
             isHovered ? styles.channelLogoContainerHovered : ""
           }`}
         >
-          {channelLogo ? (
-            <Image
-              src={channelLogo}
-              alt={channelName}
-              className={styles.channelImage}
-            />
-          ) : (
-            <span className={styles.channelInitials}>
-              {getInitials(channelName)}
-            </span>
-          )}
+          <Image
+            src={channelLogo}
+            alt={"OSS Club"}
+            className={styles.channelImage}
+          />
         </div>
         <span
           className={`${styles.channelName} ${
             isHovered ? styles.channelNameHovered : ""
           }`}
         >
-          {channelName}
+          By OSS Club
         </span>
       </div>
 
@@ -84,13 +116,11 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
             isHovered ? styles.playlistTagHovered : ""
           }`}
         >
-          {onDownload ? "Notes" : "Playlist"}{" "}
-          {/* Conditionally show "Notes" if onDownload exists */}
+          {DownloadLink ? "Notes" : "Videos"}{" "}
         </span>
       </div>
 
-      {/* Video Count (Only for Playlists) */}
-      {!onDownload && (
+      {!DownloadLink && (
         <div
           className={`${styles.videoCountContainer} ${
             isHovered ? styles.videoCountContainerHovered : ""
@@ -102,15 +132,14 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
               isHovered ? styles.videoIconHovered : ""
             }`}
           />
-          <span className={styles.videoCountText}>{videoCount} videos</span>
+          <span className={styles.videoCountText}>{duration}</span>
         </div>
       )}
 
-      {/* Share Button for Playlists / Download Button for Notes */}
       <button
         onClick={(e) => {
           e.stopPropagation();
-          if (onDownload) {
+          if (DownloadLink) {
             onDownload();
           } else {
             onShare?.();
@@ -120,11 +149,13 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
           isHovered ? styles.shareButtonHovered : styles.shareButtonNotHovered
         }`}
       >
-        {onDownload ? (
-          <Download size={18} className={styles.shareIcon} />
-        ) : (
-          <Share2 size={18} className={styles.shareIcon} />
-        )}
+        {loading ? (
+        <Loader size={18} className={`${styles.shareIcon} animate-spin`} /> // Show loading icon
+      ) : DownloadLink ? (
+        <Download size={18} className={styles.shareIcon} />
+      ) : (
+        <Share2 size={18} className={styles.shareIcon} />
+      )}
       </button>
     </div>
   );

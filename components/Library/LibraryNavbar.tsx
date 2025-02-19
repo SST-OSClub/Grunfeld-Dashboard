@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '@/styles/Library.module.css';
+import styles from '@/styles/LibraryNavbar.module.css';
 
 const LibraryNavbar: React.FC = () => {
   return (

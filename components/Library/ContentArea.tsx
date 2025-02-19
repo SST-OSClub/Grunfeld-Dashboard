@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/styles/Library.module.css";
+import styles from "@/styles/ContentArea.module.css";
 import LibraryCard from "@/ui/LibraryCard";
 
 interface ContentAreaProps {
@@ -8,92 +8,64 @@ interface ContentAreaProps {
 
 interface LibraryCardProps {
   title?: string;
-  channelName?: string;
-  channelLogo?: string;
-  videoCount?: number;
-  onShare?: () => void;
-  onClick?: () => void;
-  onDownload?: () => void; // Added for notes only
+  duration?: string;
+  ShareLink?: string;
+  DownloadLink?: string;
 }
 
 const playlistData: LibraryCardProps[] = [
   {
     title: "Git and Github",
-    channelName: "OSS Club",
-    channelLogo: "",
-    videoCount: 23,
-    onShare: () => console.log("Shared Git and Github"),
-    onClick: () => console.log("Clicked Git and Github"),
+    duration: "23 min",
+    ShareLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "JavaScript Basics",
-    channelName: "Code Academy",
-    channelLogo: "",
-    videoCount: 15,
-    onShare: () => console.log("Shared JavaScript Basics"),
-    onClick: () => console.log("Clicked JavaScript Basics"),
+    duration: "15 min",
+    ShareLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "React Notes",
-    channelName: "OSS Club",
-    channelLogo: "",
-    videoCount: 10,
-    onShare: () => console.log("Shared React Notes"),
-    onClick: () => console.log("Clicked React Notes"),
+    duration: "10 min",
+    ShareLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "Next.js Advanced",
-    channelName: "Web Notes",
-    channelLogo: "",
-    videoCount: 7,
-    onShare: () => console.log("Shared Next.js Advanced"),
-    onClick: () => console.log("Clicked Next.js Advanced"),
+    duration: "7 min",
+    ShareLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "Node.js Backend",
-    channelName: "Backend Mastery",
-    channelLogo: "",
-    videoCount: 9,
-    onShare: () => console.log("Shared Node.js Backend"),
-    onClick: () => console.log("Clicked Node.js Backend"),
+    duration: "9 min",
+    ShareLink: "https://example.com/share/git-and-github-playlist",
   },
 ];
 
 const notesData: LibraryCardProps[] = [
   {
     title: "React Notes",
-    channelName: "OSS Club",
-    channelLogo: "",
-    videoCount: 10,
-    onDownload: () => console.log("Downloaded React Notes"),
+    duration: "10 min",
+    DownloadLink: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
   },
   {
     title: "TypeScript Guide",
-    channelName: "Dev Notes",
-    channelLogo: "",
-    videoCount: 8,
-    onDownload: () => console.log("Downloaded TypeScript Guide"),
+    duration:"8 min",
+    DownloadLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "Python for Data Science",
-    channelName: "AI Notes",
-    channelLogo: "",
-    videoCount: 12,
-    onDownload: () => console.log("Downloaded Python for Data Science"),
+    duration: "12 min",
+    DownloadLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "Next.js Advanced",
-    channelName: "Web Notes",
-    channelLogo: "",
-    videoCount: 7,
-    onDownload: () => console.log("Downloaded Next.js Advanced"),
+    duration:"7 min",
+    DownloadLink: "https://example.com/share/git-and-github-playlist",
   },
   {
     title: "Node.js Backend",
-    channelName: "Backend Mastery",
-    channelLogo: "",
-    videoCount: 9,
-    onDownload: () => console.log("Downloaded Node.js Backend"),
+    duration: "9 min",
+    DownloadLink: "https://example.com/share/git-and-github-playlist",
   },
 ];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '@/styles/Library.module.css';
+import styles from '@/styles/Tabs.module.css';
 
 export type Tab = {
   id: string;
